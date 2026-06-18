@@ -39,3 +39,18 @@ int calc_pow(double base, double exp, double *result)
     *result = pow(base, exp);
     return 0;
 }
+
+double calc_sin(double x)
+{
+    return sin(x);
+}
+
+double calc_cos(double x)
+{
+    return cos(x);
+}
+
+double calc_tan(double x)
+{
+    return tan(x);
+}

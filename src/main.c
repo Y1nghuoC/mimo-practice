@@ -60,6 +60,19 @@ int main(void)
             continue;
         }
 
+        if (choice == 9 || choice == 10 || choice == 11) {
+            printf("请输入角度 (弧度): ");
+            ui_get_number(&a);
+            if (choice == 9)
+                result = calc_sin(a);
+            else if (choice == 10)
+                result = calc_cos(a);
+            else
+                result = calc_tan(a);
+            ui_print_result(result);
+            continue;
+        }
+
         if (choice < 1 || choice > 4) {
             ui_print_error("无效选项，请重新选择");
             continue;

@@ -10,7 +10,8 @@ void ui_show_menu(void)
     printf("  [3] 乘法    [4] 除法\n");
     printf("  [5] 清零    [6] 表达式\n");
     printf("  [7] 开方    [8] 幂运算\n");
-    printf("  [0] 退出\n");
+    printf("  [9] sin     [10] cos\n");
+    printf("  [11] tan    [0] 退出\n");
     printf("======================================\n");
     printf("请选择操作: ");
 }

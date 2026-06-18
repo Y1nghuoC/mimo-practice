@@ -112,6 +112,53 @@ static double parse_factor(Parser *p)
         return pow(base, exp);
     }
 
+    /*
+     * 三角函数支持 (参数为弧度):
+     *   sin(x)  - 正弦
+     *   cos(x)  - 余弦
+     *   tan(x)  - 正切
+     *
+     * 使用示例:
+     *   sin(0)             -> 0
+     *   cos(0)             -> 1
+     *   sin(3.14159/6)     -> 0.5
+     *   cos(3.14159/3)     -> 0.5
+     *   tan(3.14159/4)     -> 1
+     *   sqrt(sin(3.14159/2) + 1) -> sqrt(2) ≈ 1.41421
+     */
+    if (match_keyword(p, "sin")) {
+        skip_whitespace(p);
+        if (*p->pos != '(') { p->error = 1; return 0; }
+        p->pos++;
+        double val = parse_expr(p);
+        skip_whitespace(p);
+        if (*p->pos != ')') { p->error = 1; return 0; }
+        p->pos++;
+        return sin(val);
+    }
+
+    if (match_keyword(p, "cos")) {
+        skip_whitespace(p);
+        if (*p->pos != '(') { p->error = 1; return 0; }
+        p->pos++;
+        double val = parse_expr(p);
+        skip_whitespace(p);
+        if (*p->pos != ')') { p->error = 1; return 0; }
+        p->pos++;
+        return cos(val);
+    }
+
+    if (match_keyword(p, "tan")) {
+        skip_whitespace(p);
+        if (*p->pos != '(') { p->error = 1; return 0; }
+        p->pos++;
+        double val = parse_expr(p);
+        skip_whitespace(p);
+        if (*p->pos != ')') { p->error = 1; return 0; }
+        p->pos++;
+        return tan(val);
+    }
+
     /* 数字 */
     return parse_number(p);
 }
