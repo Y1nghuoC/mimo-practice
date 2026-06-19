@@ -21,7 +21,7 @@
 ├── src/
 │   ├── main.c        # 程序入口，主循环，菜单分发
 │   ├── calc.h        # 计算逻辑头文件（含防重复包含宏 CALC_H）
-│   ├── calc.c        # 基础运算实现（加减乘除、开方、幂运算）
+│   ├── calc.c        # 基础运算实现（加减乘除、开方、幂运算、三角函数）
 │   ├── ui.h          # 交互界面头文件（含防重复包含宏 UI_H）
 │   ├── ui.c          # 菜单显示、用户输入、结果输出、清屏
 │   ├── parser.h      # 表达式解析器头文件（含防重复包含宏 PARSER_H）
@@ -61,7 +61,7 @@ make clean
 ### main.c — 程序入口
 - 初始化 UTF-8 编码（`chcp 65001`）
 - 主循环：显示菜单 → 获取选择 → 分发处理
-- 菜单选项：1-加法 2-减法 3-乘法 4-除法 5-清零 6-表达式 7-开方 8-幂运算 0-退出
+- 菜单选项：1-加法 2-减法 3-乘法 4-除法 5-清零 6-表达式 7-开方 8-幂运算 9-sin 10-cos 11-tan 0-退出
 
 ### calc.h / calc.c — 计算逻辑
 | 函数 | 说明 | 参数 |
@@ -72,6 +72,9 @@ make clean
 | `calc_div(a, b, *result)` | 除法 | 除数为零返回 -1 |
 | `calc_sqrt(x, *result)` | 开方 | 负数返回 -1 |
 | `calc_pow(base, exp, *result)` | 幂运算 | 始终返回 0 |
+| `calc_sin(x)` | 正弦函数 | 参数为弧度 |
+| `calc_cos(x)` | 余弦函数 | 参数为弧度 |
+| `calc_tan(x)` | 正切函数 | 参数为弧度 |
 
 ### ui.h / ui.c — 交互界面
 | 函数 | 说明 |
@@ -92,8 +95,9 @@ make clean
   term        → factor (('*' | '/') factor)*
   factor      → NUMBER | '(' expression ')' | func_call | ('+' | '-') factor
   func_call   → 'sqrt' '(' expression ')' | 'pow' '(' expression ',' expression ')'
+              | 'sin' '(' expression ')' | 'cos' '(' expression ')' | 'tan' '(' expression ')'
   ```
-- **支持的内置函数**：`sqrt(x)` 开方、`pow(a, b)` 幂运算
+- **支持的内置函数**：`sqrt(x)` 开方、`pow(a, b)` 幂运算、`sin(x)` 正弦、`cos(x)` 余弦、`tan(x)` 正切
 - **运算符优先级**：`()` > `sqrt/pow` > `* /` > `+ -`
 
 ## 已实现功能清单
@@ -109,6 +113,9 @@ make clean
 | 7 | 开方 | [7] | 单个数开方，负数报错 |
 | 8 | 幂运算 | [8] | 底数和指数两个数 |
 | 9 | 退出 | [0] | 退出程序 |
+| 10 | sin | [9] | 正弦函数，参数为弧度 |
+| 11 | cos | [10] | 余弦函数，参数为弧度 |
+| 12 | tan | [11] | 正切函数，参数为弧度 |
 
 ### 表达式功能示例
 
@@ -119,4 +126,8 @@ make clean
 sqrt(16)        → 4
 pow(2, 10)      → 1024
 pow(sqrt(9), 2) → 9
+sin(0)             → 0
+cos(0)             → 1
+tan(3.14159/4)     → 1
+sqrt(sin(3.14159/2) + 1) → 1.41421
 ```
